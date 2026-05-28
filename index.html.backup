@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday, Lucy 🌿</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green-deep: #0D4A29;
+    --green-mid: #1A6B3A;
+    --green-light: #2E8B4E;
+    --gold: #C9963A;
+    --gold-light: #E8C46A;
+    --cream: #FDF8F0;
+    --cream-dark: #F5EDD8;
+    --warm-brown: #8B6914;
+    --text-dark: #1C2910;
+    --text-mid: #3D4A2E;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    background: var(--green-deep);
+    color: var(--cream);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── FLOATING PARTICLES ── */
+  .particles {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--gold-light);
+    opacity: 0;
+    animation: floatUp linear infinite;
+  }
+
+  @keyframes floatUp {
+    0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+    10%  { opacity: 0.4; }
+    90%  { opacity: 0.15; }
+    100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 24px;
+    background: radial-gradient(ellipse at 50% 40%, rgba(201,150,58,0.12) 0%, transparent 70%);
+  }
+
+  .crown {
+    font-size: 48px;
+    animation: crownBob 2.5s ease-in-out infinite;
+    display: block;
+    margin-bottom: 16px;
+  }
+  @keyframes crownBob {
+    0%, 100% { transform: translateY(0) rotate(-3deg); }
+    50%       { transform: translateY(-8px) rotate(3deg); }
+  }
+
+  .hero-label {
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    font-size: 13px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.3s;
+  }
+
+  .hero-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(52px, 10vw, 90px);
+    font-weight: 600;
+    color: var(--cream);
+    line-height: 1.05;
+    opacity: 0;
+    animation: fadeUp 0.9s ease forwards 0.5s;
+  }
+
+  .hero-name span {
+    color: var(--gold);
+    font-style: italic;
+  }
+
+  .hero-twenty {
+    margin-top: 16px;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(18px, 4vw, 26px);
+    color: var(--gold-light);
+    opacity: 0;
+    animation: fadeUp 0.9s ease forwards 0.7s;
+  }
+
+  .hero-verse {
+    margin-top: 36px;
+    max-width: 520px;
+    font-size: 15px;
+    line-height: 1.9;
+    color: rgba(253,248,240,0.72);
+    font-style: italic;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 0.9s;
+  }
+
+  .hero-verse strong {
+    color: var(--gold-light);
+    font-style: normal;
+    font-weight: 700;
+  }
+
+  .scroll-hint {
+    margin-top: 56px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 1.3s;
+    cursor: pointer;
+  }
+  .scroll-hint span {
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(232,196,106,0.6);
+  }
+  .scroll-arrow {
+    width: 22px;
+    height: 22px;
+    border-right: 1.5px solid var(--gold-light);
+    border-bottom: 1.5px solid var(--gold-light);
+    transform: rotate(45deg);
+    animation: bounce 1.5s ease-in-out infinite;
+    opacity: 0.6;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: rotate(45deg) translateY(0); }
+    50%       { transform: rotate(45deg) translateY(5px); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 0 40px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(201,150,58,0.4), transparent);
+  }
+  .divider-icon { color: var(--gold); font-size: 18px; }
+
+  /* ── SECTIONS ── */
+  .section {
+    position: relative;
+    z-index: 1;
+    padding: 72px 24px;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .section-tag {
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 5vw, 40px);
+    font-weight: 600;
+    color: var(--cream);
+    line-height: 1.2;
+    margin-bottom: 28px;
+  }
+
+  .section-title em {
+    color: var(--gold);
+    font-style: italic;
+  }
+
+  .section-body {
+    font-size: 16px;
+    line-height: 2;
+    color: rgba(253,248,240,0.78);
+    margin-bottom: 20px;
+  }
+
+  /* ── BLESSING CARDS ── */
+  .blessings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-top: 36px;
+  }
+
+  .blessing-card {
+    background: rgba(253,248,240,0.05);
+    border: 1px solid rgba(201,150,58,0.25);
+    border-radius: 12px;
+    padding: 24px 20px;
+    text-align: center;
+    transition: transform 0.3s, border-color 0.3s, background 0.3s;
+    cursor: default;
+  }
+  .blessing-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(201,150,58,0.55);
+    background: rgba(253,248,240,0.08);
+  }
+
+  .blessing-icon { font-size: 28px; display: block; margin-bottom: 12px; }
+
+  .blessing-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    color: var(--gold-light);
+    margin-bottom: 8px;
+  }
+
+  .blessing-text {
+    font-size: 13px;
+    color: rgba(253,248,240,0.62);
+    line-height: 1.7;
+  }
+
+  /* ── SONG PLAYER ── */
+  .song-section {
+    background: rgba(253,248,240,0.04);
+    border: 1px solid rgba(201,150,58,0.2);
+    border-radius: 16px;
+    padding: 32px;
+    margin-top: 36px;
+  }
+
+  .song-header {
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 20px;
+  }
+
+  .song-list { list-style: none; }
+  .song-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(253,248,240,0.07);
+    transition: opacity 0.2s;
+    cursor: pointer;
+  }
+  .song-item:last-child { border-bottom: none; }
+  .song-item:hover { opacity: 0.8; }
+
+  .song-num {
+    font-size: 12px;
+    color: rgba(232,196,106,0.45);
+    min-width: 20px;
+    text-align: center;
+  }
+
+  .song-info { flex: 1; }
+  .song-name {
+    font-size: 14px;
+    color: var(--cream);
+    font-weight: 400;
+    display: block;
+  }
+  .song-artist {
+    font-size: 12px;
+    color: rgba(253,248,240,0.45);
+    display: block;
+    margin-top: 2px;
+  }
+
+  .song-note {
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 99px;
+    background: rgba(201,150,58,0.15);
+    color: var(--gold-light);
+    border: 1px solid rgba(201,150,58,0.25);
+    white-space: nowrap;
+  }
+
+  /* ── WISHES ── */
+  .wish-container {
+    margin-top: 36px;
+    position: relative;
+  }
+
+  .wish-card {
+    background: linear-gradient(135deg, rgba(26,107,58,0.25) 0%, rgba(13,74,41,0.4) 100%);
+    border: 1px solid rgba(201,150,58,0.3);
+    border-radius: 16px;
+    padding: 36px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .wish-card::before {
+    content: '\201C';
+    font-family: 'Playfair Display', serif;
+    font-size: 120px;
+    color: rgba(201,150,58,0.08);
+    position: absolute;
+    top: -10px;
+    left: 16px;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .wish-text {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(16px, 3vw, 21px);
+    line-height: 1.9;
+    color: var(--cream);
+    position: relative;
+    z-index: 1;
+  }
+
+  .wish-from {
+    margin-top: 28px;
+    font-size: 13px;
+    color: var(--gold-light);
+    text-align: right;
+    letter-spacing: 1px;
+  }
+
+  /* ── VERSE HIGHLIGHT ── */
+  .verse-block {
+    margin-top: 52px;
+    text-align: center;
+    padding: 40px 24px;
+    border-top: 1px solid rgba(201,150,58,0.15);
+  }
+
+  .verse-text {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(18px, 3.5vw, 24px);
+    color: var(--cream);
+    line-height: 1.8;
+    max-width: 560px;
+    margin: 0 auto 16px;
+  }
+
+  .verse-ref {
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold-light);
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 48px 24px 60px;
+    border-top: 1px solid rgba(201,150,58,0.12);
+  }
+
+  .footer-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 7vw, 56px);
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  .footer-sub {
+    font-size: 13px;
+    color: rgba(253,248,240,0.45);
+    letter-spacing: 2px;
+  }
+
+  /* ── CONFETTI BUTTON ── */
+  .confetti-btn {
+    display: inline-block;
+    margin-top: 40px;
+    padding: 14px 36px;
+    background: transparent;
+    border: 1.5px solid var(--gold);
+    border-radius: 99px;
+    color: var(--gold-light);
+    font-family: 'Lato', sans-serif;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .confetti-btn:hover {
+    background: rgba(201,150,58,0.15);
+    transform: scale(1.03);
+  }
+
+  /* ── CONFETTI ── */
+  .confetti-piece {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    top: -10px;
+    border-radius: 2px;
+    pointer-events: none;
+    z-index: 9999;
+    animation: fall linear forwards;
+  }
+  @keyframes fall {
+    0%   { transform: translateY(0) rotate(0); opacity: 1; }
+    100% { transform: translateY(105vh) rotate(720deg); opacity: 0; }
+  }
+
+  /* ── REVEAL ON SCROLL ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<!-- Floating particles -->
+<div class="particles" id="particles"></div>
+
+<!-- ──── HERO ──── -->
+<section class="hero">
+  <span class="crown">🌿</span>
+  <p class="hero-label">Today is your day</p>
+  <h1 class="hero-name">Happy Birthday,<br><span>Lucy Wanjiru</span></h1>
+  <p class="hero-twenty">Turning 20 — a new and beautiful decade</p>
+  <p class="hero-verse">
+    "For I know the plans I have for you," declares the Lord,<br>
+    "plans to prosper you and not to harm you,<br>
+    plans to give you <strong>hope and a future.</strong>"<br>
+    — Jeremiah 29:11
+  </p>
+  <div class="scroll-hint" onclick="document.getElementById('main').scrollIntoView({behavior:'smooth'})">
+    <span>Scroll</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- ──── MAIN CONTENT ──── -->
+<main id="main">
+
+  <!-- Blessings Section -->
+  <div class="section reveal">
+    <span class="section-tag">Spoken over you</span>
+    <h2 class="section-title">God's favour is upon<br><em>every area of your life</em></h2>
+    <p class="section-body">
+      As you step into your twenties, know this — you are not entering a new chapter alone. 
+      The God who has kept you through every season is the same God who goes before you into this new one. 
+      His mercies are new this morning, and they are new for you today.
+    </p>
+
+    <div class="blessings-grid">
+      <div class="blessing-card">
+        <span class="blessing-icon">🎵</span>
+        <p class="blessing-title">Your voice</p>
+        <p class="blessing-text">May every song you sing carry the weight of heaven and bring healing to those who hear it.</p>
+      </div>
+      <div class="blessing-card">
+        <span class="blessing-icon">🎸</span>
+        <p class="blessing-title">Your gifting</p>
+        <p class="blessing-text">The guitar strings under your fingers are an offering. May your music open doors no one can shut.</p>
+      </div>
+      <div class="blessing-card">
+        <span class="blessing-icon">📖</span>
+        <p class="blessing-title">Your mind</p>
+        <p class="blessing-text">May wisdom increase in you year by year, and may your growth in knowledge bring God glory.</p>
+      </div>
+      <div class="blessing-card">
+        <span class="blessing-icon">☀️</span>
+        <p class="blessing-title">Your future</p>
+        <p class="blessing-text">The best of your story is still unwritten. May every dream you carry find its moment in God's perfect time.</p>
+      </div>
+      <div class="blessing-card">
+        <span class="blessing-icon">🙏</span>
+        <p class="blessing-title">Your faith</p>
+        <p class="blessing-text">Your love for God is your greatest strength. May it deepen in this new decade beyond what you can ask or imagine.</p>
+      </div>
+      <div class="blessing-card">
+        <span class="blessing-icon">❤️</span>
+        <p class="blessing-title">Your heart</p>
+        <p class="blessing-text">You carry warmth for everyone around you. May that same warmth return to you a hundredfold.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider reveal"><span class="divider-icon">✦</span></div>
+
+  <!-- Songs Section -->
+  <div class="section reveal">
+    <span class="section-tag">Songs that carry your spirit</span>
+    <h2 class="section-title">A playlist<br><em>just for you</em></h2>
+    <p class="section-body">
+      Music is one of the ways God speaks to your heart. These are songs that feel like you —
+      full of worship, depth, and the kind of faith that doesn't flinch.
+    </p>
+
+    <div class="song-section">
+      <p class="song-header">✦ Your worship playlist</p>
+      <ul class="song-list">
+        <li class="song-item">
+          <span class="song-num">01</span>
+          <div class="song-info">
+            <span class="song-name">Your Love</span>
+            <span class="song-artist">Chandler Moore & Moses Bliss</span>
+          </div>
+          <span class="song-note">your favourite ✦</span>
+        </li>
+        <li class="song-item">
+          <span class="song-num">02</span>
+          <div class="song-info">
+            <span class="song-name">Sifa Zitande</span>
+            <span class="song-artist">Jacque Gachiri</span>
+          </div>
+          <span class="song-note">praise anthem</span>
+        </li>
+        <li class="song-item">
+          <span class="song-num">03</span>
+          <div class="song-info">
+            <span class="song-name">Nizamishe</span>
+            <span class="song-artist">Joana Neema</span>
+          </div>
+          <span class="song-note">deep worship</span>
+        </li>
+        <li class="song-item">
+          <span class="song-num">04</span>
+          <div class="song-info">
+            <span class="song-name">Kestin Mbogo — Live</span>
+            <span class="song-artist">Kestin Mbogo</span>
+          </div>
+          <span class="song-note">your fav minister</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="divider reveal"><span class="divider-icon">✦</span></div>
+
+  <!-- Personal Message Section -->
+  <div class="section reveal">
+    <span class="section-tag">A word for you</span>
+    <h2 class="section-title">To the woman<br><em>God is raising up</em></h2>
+
+    <div class="wish-container">
+      <div class="wish-card">
+        <p class="wish-text">
+          Lucy, you are someone who doesn't take up space loudly — 
+          but every room you enter is better for having you in it. 
+          Your laugh is one of a kind. The way you love people quietly, 
+          the way you show up for your family, the way you give God the credit 
+          for everything — it doesn't go unnoticed.<br><br>
+          Turning 20 is not just a birthday. It's a threshold. 
+          On the other side of this door is a version of you that is wiser, stronger, 
+          more rooted, and more fruitful than you can imagine right now. 
+          God is not done with your story — in fact, the best chapters 
+          are still being written.<br><br>
+          May this year bring you clarity where you've had confusion, 
+          provision where there has been need, and joy so full it overflows. 
+          You are deeply seen, deeply valued, and deeply loved — 
+          by the God who made you, and by the people He placed in your life.
+        </p>
+        <p class="wish-from">— Happy Birthday, from Mark 🌿</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Verse Closing -->
+  <div class="section reveal">
+    <div class="verse-block">
+      <p class="verse-text">
+        "She is clothed with strength and dignity;<br>
+        she can laugh at the days to come."
+      </p>
+      <p class="verse-ref">Proverbs 31:25</p>
+    </div>
+  </div>
+
+</main>
+
+<!-- ──── FOOTER ──── -->
+<footer class="footer reveal">
+  <h2 class="footer-name">Lucy Wanjiru</h2>
+  <p class="footer-sub">20 years of God's faithfulness · 28 May 2026</p>
+
+  <br>
+  <button class="confetti-btn" onclick="launchConfetti()">🎉 Celebrate!</button>
+</footer>
+
+<script>
+  /* ── PARTICLES ── */
+  const container = document.getElementById('particles');
+  for (let i = 0; i < 28; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = 2 + Math.random() * 4;
+    p.style.cssText = `
+      width: ${size}px;
+      height: ${size}px;
+      left: ${Math.random() * 100}%;
+      animation-duration: ${8 + Math.random() * 12}s;
+      animation-delay: ${Math.random() * 10}s;
+    `;
+    container.appendChild(p);
+  }
+
+  /* ── SCROLL REVEAL ── */
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  /* ── CONFETTI ── */
+  function launchConfetti() {
+    const colors = ['#C9963A','#E8C46A','#2E8B4E','#FDF8F0','#F5C518','#1A6B3A','#fff'];
+    for (let i = 0; i < 120; i++) {
+      setTimeout(() => {
+        const c = document.createElement('div');
+        c.className = 'confetti-piece';
+        c.style.cssText = `
+          left: ${Math.random() * 100}vw;
+          background: ${colors[Math.floor(Math.random() * colors.length)]};
+          width: ${6 + Math.random() * 8}px;
+          height: ${6 + Math.random() * 8}px;
+          border-radius: ${Math.random() > 0.5 ? '50%' : '2px'};
+          animation-duration: ${1.8 + Math.random() * 2.2}s;
+          animation-delay: ${Math.random() * 0.8}s;
+        `;
+        document.body.appendChild(c);
+        setTimeout(() => c.remove(), 4200);
+      }, i * 12);
+    }
+  }
+</script>
+</body>
+</html>

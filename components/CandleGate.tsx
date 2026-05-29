@@ -25,6 +25,7 @@ export default function CandleGate() {
   const streamRef = useRef<MediaStream | null>(null);
   const puffTimerRef = useRef(0);
   const candleIndexRef = useRef(0);
+  const blowDetectionRef = useRef(false);
 
   const candlesRef = useRef(candles);
   candlesRef.current = candles;
@@ -37,7 +38,7 @@ export default function CandleGate() {
     };
   }, []);
 
-  // Setup mic
+  // Setup mic AFTER 300ms delay so cake is fully painted before permission prompt
   useEffect(() => {
     if (typeof navigator === "undefined" || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
       setMicSupported(false);
@@ -45,51 +46,61 @@ export default function CandleGate() {
     }
 
     let cancelled = false;
+    let blowTimer: ReturnType<typeof setTimeout> | undefined;
 
-    (async () => {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        if (cancelled) {
-          stream.getTracks().forEach((t) => t.stop());
-          return;
-        }
-        streamRef.current = stream;
-        const ctx = new AudioContext();
-        audioCtxRef.current = ctx;
-        const source = ctx.createMediaStreamSource(stream);
-        const analyser = ctx.createAnalyser();
-        analyser.fftSize = 256;
-        source.connect(analyser);
-        const dataArray = new Uint8Array(analyser.frequencyBinCount);
-
-        setMicActive(true);
-
-        function checkMic() {
-          if (cancelled) return;
-          analyser.getByteFrequencyData(dataArray);
-          const avg = dataArray.reduce((a, b) => a + b, 0) / dataArray.length;
-
-          if (avg > 55) {
-            if (puffTimerRef.current === 0) {
-              puffTimerRef.current = Date.now();
-            } else if (Date.now() - puffTimerRef.current >= 80) {
-              puffTimerRef.current = 0;
-              if (ctx.state === "suspended") ctx.resume();
-              extinguishCandle();
-            }
-          } else {
-            puffTimerRef.current = 0;
+    const mountTimer = setTimeout(() => {
+      (async () => {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          if (cancelled) {
+            stream.getTracks().forEach((t) => t.stop());
+            return;
           }
+          streamRef.current = stream;
+          const ctx = new AudioContext();
+          audioCtxRef.current = ctx;
+          const source = ctx.createMediaStreamSource(stream);
+          const analyser = ctx.createAnalyser();
+          analyser.fftSize = 256;
+          source.connect(analyser);
+          const dataArray = new Uint8Array(analyser.frequencyBinCount);
 
-          animFrameRef.current = requestAnimationFrame(checkMic);
+          setMicActive(true);
+
+          // Enable blow detection after 2000ms — mic is active but ignores audio during this window
+          blowTimer = setTimeout(() => {
+            blowDetectionRef.current = true;
+          }, 2000);
+
+          function checkMic() {
+            if (cancelled) return;
+            analyser.getByteFrequencyData(dataArray);
+            const avg = dataArray.reduce((a, b) => a + b, 0) / dataArray.length;
+
+            if (blowDetectionRef.current && avg > 55) {
+              if (puffTimerRef.current === 0) {
+                puffTimerRef.current = Date.now();
+              } else if (Date.now() - puffTimerRef.current >= 80) {
+                puffTimerRef.current = 0;
+                if (ctx.state === "suspended") ctx.resume();
+                extinguishCandle();
+              }
+            } else {
+              puffTimerRef.current = 0;
+            }
+
+            animFrameRef.current = requestAnimationFrame(checkMic);
+          }
+          checkMic();
+        } catch {
+          setMicSupported(false);
         }
-        checkMic();
-      } catch {
-        setMicSupported(false);
-      }
-    })();
+      })();
+    }, 300);
 
     return () => {
+      clearTimeout(mountTimer);
+      clearTimeout(blowTimer);
       cancelled = true;
       cancelAnimationFrame(animFrameRef.current);
       streamRef.current?.getTracks().forEach((t) => t.stop());
@@ -151,7 +162,7 @@ export default function CandleGate() {
 
   function startCountdown() {
     let startTime = Date.now();
-    const duration = 8000;
+    const duration = 12000;
 
     function tick() {
       const elapsed = Date.now() - startTime;

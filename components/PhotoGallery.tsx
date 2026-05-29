@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef } from "react";
 
 const images = [
   { src: "/assets/images/Lucy1.webp", alt: "Lucy 1" },
@@ -14,10 +14,18 @@ const images = [
   { src: "/assets/images/Lucy9.webp", alt: "Lucy 9" },
 ];
 
+function handleTap(e: React.TouchEvent | React.MouseEvent) {
+  const img = (e.currentTarget as HTMLElement).querySelector("img");
+  if (!img) return;
+  img.style.transform = "scale(1.03)";
+  img.style.transition = "transform 0.15s ease";
+  setTimeout(() => {
+    img.style.transform = "scale(1)";
+  }, 150);
+}
+
 export default function PhotoGallery() {
-  const [tappedIndex, setTappedIndex] = useState<number | null>(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useEffect(() => {
     observerRef.current = new IntersectionObserver(
@@ -37,12 +45,6 @@ export default function PhotoGallery() {
     return () => observerRef.current?.disconnect();
   }, []);
 
-  const handleTap = useCallback((i: number) => {
-    setTappedIndex(i);
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    timeoutRef.current = setTimeout(() => setTappedIndex(null), 500);
-  }, []);
-
   return (
     <div className="section reveal">
       <span className="section-tag">Moments</span>
@@ -59,10 +61,10 @@ export default function PhotoGallery() {
           return (
             <div
               key={img.src}
-              className={`gallery-item reveal ${isFull ? "full" : "half"} ${isSpan2 ? "span-2" : ""} ${tappedIndex === i ? "tapped" : ""}`}
+              className={`gallery-item reveal ${isFull ? "full" : "half"} ${isSpan2 ? "span-2" : ""}`}
               style={{ animationDelay: `${i * 0.08}s` }}
-              onClick={() => handleTap(i)}
-              onTouchStart={() => handleTap(i)}
+              onClick={handleTap}
+              onTouchStart={handleTap}
             >
               <img src={img.src} alt={img.alt} loading="lazy" />
               <div className="gallery-caption" />

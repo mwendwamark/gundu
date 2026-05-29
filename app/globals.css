@@ -22,6 +22,9 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
 }
+main {
+  overflow: visible;
+}
 
 /* ── CANDLE GATE ── */
 .candle-gate {
@@ -336,6 +339,8 @@ body {
   padding: 6rem 1.5rem;
   max-width: 700px;
   margin: 0 auto;
+  background: var(--bg);
+  overflow: visible;
 }
 
 @media (min-width: 768px) {
@@ -390,10 +395,12 @@ body {
   transition: transform 0.3s, border-color 0.3s, background 0.3s;
   cursor: default;
 }
-.blessing-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(196, 113, 79, 0.4);
-  background: var(--soft-bg);
+@media (hover: hover) {
+  .blessing-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(196, 113, 79, 0.4);
+    background: var(--soft-bg);
+  }
 }
 
 .blessing-icon {
@@ -499,10 +506,12 @@ body {
   overflow: hidden;
   position: relative;
   cursor: pointer;
-  transition: transform 0.3s ease;
 }
-.gallery-item:hover {
-  transform: scale(1.03);
+@media (hover: hover) {
+  .gallery-item:hover {
+    transform: scale(1.03);
+    transition: transform 0.3s ease;
+  }
 }
 .gallery-item.full {
   grid-column: span 2;
@@ -518,10 +527,6 @@ body {
   display: block;
   transition: transform 0.3s ease;
 }
-.gallery-item.tapped img {
-  transform: scale(1.03);
-}
-
 .gallery-caption {
   position: absolute;
   bottom: 0;
@@ -532,9 +537,10 @@ body {
   opacity: 0;
   transition: opacity 0.3s ease;
 }
-.gallery-item:hover .gallery-caption,
-.gallery-item.tapped .gallery-caption {
-  opacity: 1;
+@media (hover: hover) {
+  .gallery-item:hover .gallery-caption {
+    opacity: 1;
+  }
 }
 
 .gallery-item.reveal {
@@ -577,6 +583,8 @@ body {
   border-radius: 12px;
   padding: 1rem 1.25rem;
   width: 100%;
+  min-height: 80px;
+  overflow: visible;
 }
 
 .song-card-top {
